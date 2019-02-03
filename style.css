@@ -1,0 +1,423 @@
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* TODO: Actually make use of the time units once I get everything in sync */
+    
+}
+
+.module-container {
+    height: 100%;
+    max-height: 1200px;
+    width: 900px;
+    max-width: 100vw;
+    overflow: hidden;
+    position: relative;
+    --time-unit: 1s;
+    z-index: 100;
+}
+
+
+
+/* ================================ */
+
+.sky {
+    --night: #1e1e2f;
+    --day: #ccefff;
+    /* --mid: #ff9966; */
+
+    height: 70%;
+    width: 100%;
+
+    background: var(--night);
+    animation: sky-color calc( var(--time-unit) * 20 ) alternate infinite;
+}
+
+@keyframes sky-color {
+    0% {
+        background: var(--night);
+    }
+
+    20% {
+        background: var(--night);
+    }
+
+    90% {
+        background: var(--day);
+    }
+
+    100% {
+        background: var(--day);
+    }
+}
+
+/* ================================ */
+
+/* TODO: Seperate into moon and sun */
+
+.celestial-body {
+    --color: #ffffcc;
+    --size: 50px;
+    --from-top: 30vh;
+
+    height: var(--size);
+    width: var(--size);
+
+    border-radius: 100%;
+    background: var(--color);
+    position: absolute;
+    box-shadow: 0 0 10px var(--color);
+
+    left: 10%;
+    top: 10%;
+
+    /* animation: celestial-movement 3s linear infinite; */
+}
+
+/* TODO: Figure out how to get the movement here */
+/* IDEA: Make a giant invisible circle with the sun and moon on it like Cosmos */
+@keyframes celestial-movement {
+    0% {
+        left: 0;
+        top: var(--from-top);
+    }
+    50% {
+        left: calc( 50% - (var(--size) / 2) );
+        top: 0;
+    }
+    100% {
+        left: 100%;
+        top: var(--from-top);
+    }
+}
+
+
+/* ================================ */
+
+.ground {
+    --dark: #0a0a0f;
+    --light: #3d3d5c;
+
+    height: 30%;
+    width: 100%;
+
+    background: var(--dark);
+    animation: ground-color calc( var(--time-unit) * 20 ) alternate infinite;
+}
+
+@keyframes ground-color {
+    0% {
+        background: var(--dark);
+    }
+
+    100% {
+        background: var(--light);
+    }
+}
+
+/* ================================ */
+
+.store{
+    --color: #212121;
+    --store-lights: #ffffcc;
+
+    box-sizing: border-box;
+    border: 10px solid var(--color);
+
+    position: absolute;
+    z-index: 10;
+    bottom: 20%;
+
+    height: 400px;
+    max-height: 50%; 
+    width: 80%;
+    left: 10%;
+    max-width: 800px;
+
+    background: var(--color);
+    
+}
+
+/* @media screen and (max-width: 900px) {
+    .store {
+        
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .store {
+        left: calc( (100% - 800px) / 2)
+    }
+} */
+
+/* -------------------------------- */
+
+.store > .roof {
+    height: 20%;
+    display: flex;
+    align-items: center;
+}
+
+.store > .roof > p {
+    --color: #ccffff;
+
+    margin: 0;
+    /* TODO: Use a monospace font */
+    font-family: sans-serif;
+    font-size: 180%;
+    text-transform: uppercase;
+    padding: 0 1em;
+    color: var(--color);
+    text-shadow: 0 0 10px var(--color);
+
+    /* TODO: Get the delay to be included with the loop */
+    animation: flicker 3s infinite; 
+    /* animation-delay: 3s; */
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+
+    3% {
+        opacity: 0;
+    }
+
+    6% {
+        opacity: 1;
+    }
+
+    8% {
+        opacity: 0.5;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+/* -------------------------------- */
+
+.store > .inside {height: 80%;
+    background: var(--store-lights);
+}
+
+/* -------------------------------- */
+
+.store > .front {
+    height: 80%;
+    width: 100%;
+    position: absolute;
+    top: 20%;
+
+}
+
+.store > .front > .panels,
+.store > .front > .doors {
+    --color: black;
+
+    box-sizing: border-box;
+    border: 8px solid var(--color);
+    width: 25%;
+    height: 100%;
+
+    position: absolute;
+}
+
+.store > .front > .left-panel {
+    left: 0;
+}
+
+.store > .front > .right-panel {
+    right: 0;
+}
+
+
+.store > .front > .doors {
+
+}
+
+.store > .front > .left-door {
+    left: 25%;
+    animation:
+        slide-left 1s linear 4s normal forwards,
+        slide-left 1s linear 7s 1 reverse forwards;
+}
+
+.store > .front > .right-door {
+    right: 25%;
+    animation:
+        slide-right 1s linear 4s normal forwards,
+        slide-right 1s linear 7s 1 reverse forwards;
+}
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(0)
+    }
+    100% {
+        transform: translateX(-90%)
+    }
+}
+@keyframes slide-right {
+    0% {
+        transform: translateX(0)
+    }
+    100% {
+        transform: translateX(90%)
+    }
+}
+
+
+.store > .front > .panels > .glass,
+.store > .front > .doors > .glass {
+    --color: var(--store-lights);
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 0 10px var(--color);
+}
+
+/* -------------------------------- */
+
+.store > .mat {
+    height: 30%;
+    width: 40%;
+    margin: 0 auto;
+    background: #333;
+}
+
+/* ================================ */
+
+.creature {
+    --color: orange;
+    --unit: 10px;
+
+    position: absolute;
+    z-index: 20;
+
+    bottom: 25%;
+    left: calc( var(--unit) * -20 );
+
+    display: flex;
+    flex-direction: column;
+
+    animation: pass-through 10s linear ;
+}
+
+@keyframes pass-through {
+    0% {
+        left: calc( var(--unit) * -20 )
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+.creature > * {
+    background: var(--color);
+    border-radius: 100%;
+}
+
+.creature > .head {
+    --size: calc( var(--unit) * 4 );
+    height: var(--size);
+    width: calc( var(--size) * 1.2 );
+    border-radius: 100%;
+    align-self: center;
+}
+
+.creature > .body {
+    --size: calc( var(--unit) * 10 );
+
+    height: var(--size);
+    width: var(--size);
+    align-self: center;
+
+    /* background: transparent;
+    border: 2px solid yellow; */
+    box-shadow: 0 0 10px rgba(0,0,0, 0.5);
+    z-index: 23;
+}
+
+.creature > .arms {
+    --size: calc( var(--unit) * 2 );
+
+    height: calc( var(--size) * 5 );
+    width: calc( var(--size) * 1 );
+
+    position: absolute;
+    left: calc( var(--unit) * 4 );
+    top: calc( var(--unit) * 7 );
+
+    transform-origin: top left;
+
+    animation: swing 1s alternate infinite ease-out;
+}
+
+.creature > .left-arm {
+    z-index: 21;
+}
+
+.creature > .right-arm {
+    animation-delay: 1s;
+    box-shadow: 0 0 10px rgba(0,0,0, 0.5);
+    z-index: 25;
+}
+
+@keyframes swing {
+    0% {
+        transform: rotate(25deg);
+    }
+    100% {
+        transform: rotate(-35deg);
+    }
+}
+
+
+.creature > .legs {
+    --size: calc( var(--unit) * 2 );
+
+    height: calc( var(--size) * 5 );
+    width: calc( var(--size) * 1 );
+
+    position: absolute;
+    left: calc( var(--unit) * 4 );
+    top: calc( var(--unit) * 12 );
+
+    transform-origin: top right;
+
+    animation: step 1s alternate infinite ease-out;
+}
+
+.creature > .left-leg {
+    animation-delay: 1s;
+    z-index: 22;
+}
+
+.creature > .right-leg {
+    box-shadow: 0 0 10px rgba(0,0,0, 0.5);
+    z-index: 24;
+}
+
+@keyframes step {
+    0% {
+        transform: rotate(35deg);
+    }
+    100% {
+        transform: rotate(-25deg);
+    }
+}
+
+/* TODO: Add walk into store animation? */
